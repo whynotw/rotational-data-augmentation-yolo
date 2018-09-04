@@ -30,9 +30,11 @@ Where `original` is directory with your images and labels.
 
 `<dataset_input>` is `original` in this example.
 
-## Check images and labels
-	python rotation.py [dataset_output]
+## Visualize generated images and labels
+	python rotation.py <dataset_output>
 
 `<dataset_output>` is `rotational` in this example.
+
+Check the labels are correct or not.
 
 After running this python script successfully, you can move `rotational` to other place where you used to store your data.
