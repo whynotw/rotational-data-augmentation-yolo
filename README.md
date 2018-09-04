@@ -24,11 +24,11 @@
 	        └── ...
 
 ## Generate augmented data
-	`python rotation.py [dataset_name_input]`
+	python rotation.py [dataset_name_input]
 
-	where [dataset_name_input] is `original` in this example
+where [dataset_name_input] is `original` in this example
 
 ## Check images and labels
-	`python rotation.py [dataset_name_output]`
+	python rotation.py [dataset_name_output]
 
-	where [dataset_name_output] is `rotational` in this example
+where [dataset_name_output] is `rotational` in this example
