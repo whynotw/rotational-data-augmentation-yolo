@@ -31,7 +31,7 @@ Where `original` is directory with your images and labels. After running `rotati
 `DATASET_INPUT` is `original` in this example.
 
 ## Visualize generated images and labels
-	python rotation.py -i DATASET_INPUT
+	python check_label.py -i DATASET_INPUT
 
 `DATASET_INPUT` is `rotational` in this example.
 
