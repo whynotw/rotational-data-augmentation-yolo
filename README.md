@@ -23,16 +23,16 @@
 	        ├── test00_030.txt
 	        └── ...
 
-where `original` is directory with non-rotational images and labels.
+Where `original` is directory with your images and labels.
 
 ## Generate augmented data
-	python rotation.py <dataset_name_input>
+	python rotation.py <dataset_input>
 
-`<dataset_name_input>` is `original` in this example.
+`<dataset_input>` is `original` in this example.
 
 ## Check images and labels
-	python rotation.py [dataset_name_output]
+	python rotation.py [dataset_output]
 
-`<dataset_name_output>` is `rotational` in this example.
+`<dataset_output>` is `rotational` in this example.
 
-After running this python script, you can `mv` `rotational` to other place you used to restore data.
+After running this python script successfully, you can move `rotational` to other place where you used to store your data.
