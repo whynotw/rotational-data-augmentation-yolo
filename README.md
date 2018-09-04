@@ -28,7 +28,7 @@ Where `original` is directory with your images and labels.
 ## Generate augmented data
 	python rotation.py -i DATASET_INPUT
 
-DATASET_INPUT is `original` in this example.
+`DATASET_INPUT` is `original` in this example.
 
 ## Visualize generated images and labels
 	python rotation.py -i DATASET_INPUT
