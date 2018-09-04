@@ -36,13 +36,6 @@ time_interval = args.time_interval
 ratio = args.ratio
 angle_interval = args.angle_interval
 save_image = args.save_image
-#quit()
-
-# settings
-angle_interval = 30
-time_interval = 1
-save_image = 1
-ratio = 0.8
 
 dataset_output = "rotational"
 dir_input_image = dataset_input+"/images/"
@@ -85,6 +78,9 @@ def coord2label(coord,height_image,width_image):
   height_bbox   = (y_bottom-y_top   )    / height_image
   return category, x_center_bbox, y_center_bbox, width_bbox, height_bbox
 
+def constraint(value, lower, upper):
+  return max(min(value,upper),lower)
+
 for image_name0 in image_names:
   print(image_name0)
   label_name = dir_input_label+"/"+os.path.splitext(os.path.basename(image_name0))[0]+".txt"
@@ -96,7 +92,14 @@ for image_name0 in image_names:
   coords = []
   for label in labels0:
     label = label.strip("\n").split()
-    coords.append( label2coord(label,height_image,width_image) )
+    coord = label2coord(label,height_image,width_image)
+    h2 = 2*height_image
+    w2 = 2*width_image
+    coords.append([coord[0],   coord[1],   coord[2],   coord[3],   coord[4]])
+    coords.append([coord[0],  -coord[3],   coord[2],  -coord[1],   coord[4]])
+    coords.append([coord[0],w2-coord[3],   coord[2],w2-coord[1],   coord[4]])
+    coords.append([coord[0],   coord[1],  -coord[4],   coord[3],  -coord[2]])
+    coords.append([coord[0],   coord[1],h2-coord[4],   coord[3],h2-coord[2]])
 
   for angle in range(0,360,angle_interval):
     image_name = dir_output_image+"/"+os.path.splitext(os.path.basename(image_name0))[0]+"_%03d"%angle+".jpg"
@@ -104,13 +107,12 @@ for image_name0 in image_names:
     print(image_name)
     if angle == 0.:
       image = np.array(image0)
-      labels = list(labels0)
     else:
       center = int(width_image/2), int(height_image/2)
       scale = 1.
       matrix = cv2.getRotationMatrix2D(center,angle, scale)
-      image = cv2.warpAffine(image0,matrix,(width_image,height_image),borderMode=cv2.BORDER_REPLICATE)
-      #image = cv2.warpAffine(image0,matrix,(width_image,height_image),borderMode=cv2.BORDER_REFLECT_101)
+      #image = cv2.warpAffine(image0,matrix,(width_image,height_image),borderMode=cv2.BORDER_REPLICATE)
+      image = cv2.warpAffine(image0,matrix,(width_image,height_image),borderMode=cv2.BORDER_REFLECT_101)
     image_annotated = np.array(image)
 
     # clean label file
@@ -124,18 +126,18 @@ for image_name0 in image_names:
       if angle != 0:
         points0 = np.array([[x_left,y_top,1.], [x_left,y_bottom,1.], [x_right,y_top,1.], [x_right,y_bottom,1.]])
         points = np.dot(matrix,points0.T).T
-        x_left   = max(int( min(map(lambda p: p[0], points)) ),0)
-        x_right  = min(int( max(map(lambda p: p[0], points)) ),width_image)
-        y_top    = max(int( min(map(lambda p: p[1], points)) ),0)
-        y_bottom = min(int( max(map(lambda p: p[1], points)) ),height_image)
+        x_left   = constraint(int(min(map(lambda p: p[0], points))),0,width_image)
+        x_right  = constraint(int(max(map(lambda p: p[0], points))),0,width_image)
+        y_top    = constraint(int(min(map(lambda p: p[1], points))),0,height_image)
+        y_bottom = constraint(int(max(map(lambda p: p[1], points))),0,height_image)
         area = (x_right-x_left)*(y_bottom-y_top)
       else:
         area = float(area0)
-      label = coord2label([category, x_left, y_top, x_right, y_bottom],height_image,width_image)
       if area > area0*ratio:
         cv2.rectangle(image_annotated,(x_left,y_top),(x_right,y_bottom),(255,255,255),2) # white bbox
         if save_image:
           with open(label_name,"a") as f1:
+            label = coord2label([category, x_left, y_top, x_right, y_bottom],height_image,width_image)
             f1.write(" ".join( map(str,label) )+"\n")
       else:
         if not save_image:
