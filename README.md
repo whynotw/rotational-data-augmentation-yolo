@@ -1,10 +1,10 @@
 # Rotational Data Augmentation for YOLO
 
-## requirement
+## Requirement
 	numpy
 	opencv-python
 
-## directory structure
+## Directory structure
 	.
 	├── check_label.py
 	├── rotation.py

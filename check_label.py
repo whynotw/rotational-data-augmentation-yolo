@@ -3,21 +3,41 @@ import cv2
 from glob import glob
 import os
 from sys import argv
+import argparse
 
-if len(argv) == 1:
-  print("$1: dataset name")
-  quit()
-else:
-  dataset_input = argv[1]
+#parsing
+parser = argparse.ArgumentParser()
+parser.add_argument("-i",dest="dataset_input",
+                         help="directory containing data you want to visualize.",
+                         required=True)
+parser.add_argument("-t",dest="time_interval",
+                         help="time interval to control speed of displaying images",
+                         default=1,
+                         type=int)
+parser.add_argument("-l",dest="labeled_only",
+                         help="only visualizing for data with label",
+                         default=0,
+                         type=float)
+parser.add_argument("-s",dest="save_video",
+                         help="save video or not, filename is out.avi",
+                         default=0,
+                         type=int)
 
-#dataset_input = "/data/mydata/darknet3_zoo/data_bottle03"
-#dataset_output = "tmpimg"
+args = parser.parse_args()
+dataset_input = args.dataset_input
+time_interval = args.time_interval
+labeled_only = args.labeled_only
+save_video = args.save_video
+
+#if len(argv) == 1:
+#  print("$1: dataset name")
+#  quit()
+#else:
+#  dataset_input = argv[1]
+#quit()
+
 dir_image = dataset_input+"/images/"
 dir_label = dataset_input+"/labels/"
-
-time_interval = 0
-labeled_only  = 0
-save_video    = 0
 
 image_names = sorted(glob(dir_image+"/*"))
 print("# of images: %d"%len(image_names))
