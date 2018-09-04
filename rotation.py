@@ -3,17 +3,46 @@ import cv2
 from glob import glob
 import os
 from sys import argv
+import argparse
 
-if len(argv)==1:
-  print("$1: dataset path")
-  quit()
-dataset_input = argv[1]
+# parsing
+parser = argparse.ArgumentParser()
+parser.add_argument("-i",dest="dataset_input",
+                         help="directory containing data you want to rotate.",
+                         required=True)
+parser.add_argument("-o",dest="dataset_output",
+                         help="directory to store generated data. this directory will be made automatically.",
+                         default="rotational")
+parser.add_argument("-t",dest="time_interval",
+                         help="time interval to control speed of displaying images",
+                         default=1,
+                         type=int)
+parser.add_argument("-r",dest="ratio",
+                         help="ratio for ignoring bounding box near the edges of image",
+                         default=0.8,
+                         type=float)
+parser.add_argument("-a",dest="angle_interval",
+                         help="angle interval for rotating",
+                         default=30,
+                         type=int)
+parser.add_argument("-s",dest="save_image",
+                         help="save data or not, set to 0 for purely visualizing rotated images",
+                         default=1,
+                         type=int)
+args = parser.parse_args()
+dataset_input = args.dataset_input
+dataset_output = args.dataset_output
+time_interval = args.time_interval
+ratio = args.ratio
+angle_interval = args.angle_interval
+save_image = args.save_image
+#quit()
 
 # settings
 angle_interval = 30
 time_interval = 1
 save_image = 1
-threshold = 0.8
+ratio = 0.8
 
 dataset_output = "rotational"
 dir_input_image = dataset_input+"/images/"
@@ -103,7 +132,7 @@ for image_name0 in image_names:
       else:
         area = float(area0)
       label = coord2label([category, x_left, y_top, x_right, y_bottom],height_image,width_image)
-      if area > area0*threshold:
+      if area > area0*ratio:
         cv2.rectangle(image_annotated,(x_left,y_top),(x_right,y_bottom),(255,255,255),2) # white bbox
         if save_image:
           with open(label_name,"a") as f1:

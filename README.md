@@ -26,14 +26,14 @@
 Where `original` is directory with your images and labels.
 
 ## Generate augmented data
-	python rotation.py <dataset_input>
+	python rotation.py -i DATASET_INPUT
 
-`<dataset_input>` is `original` in this example.
+DATASET_INPUT is `original` in this example.
 
 ## Visualize generated images and labels
-	python rotation.py <dataset_output>
+	python rotation.py -i DATASET_OUTPUT
 
-`<dataset_output>` is `rotational` in this example.
+`DATASET_OUTPUT` is `rotational` in this example.
 
 Check the labels are correct or not.
 
