@@ -40,8 +40,11 @@ After: Image is rotated anticlockwise by 30 degree and the block is still bounde
 
 `DATASET_INPUT` is `data_original` in this example. The default output destination directory is `data_rotational`.
 
+You can use `python rotation.py -h` to get more information.
+
 ## Visualize generated images and labels
 	python check_label.py -i DATASET_INPUT
 
 `DATASET_INPUT` is `data_rotational` in this example.
 
+You can use `python check_label.py -h` to get more information.
