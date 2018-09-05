@@ -8,11 +8,11 @@
 
 Before: the block at left-top corner is bounded by a white box.
 
-![image] (https://github.com/whynotw/rotational-data-augmentation-yolo/blob/master/before.png)
+![] (https://github.com/whynotw/rotational-data-augmentation-yolo/blob/master/before.png)
 
 After: Image is rotated anticlockwise by 30 degree and the block is still bounded by the white box.
 
-![image] (https://github.com/whynotw/rotational-data-augmentation-yolo/blob/master/after.png)
+![] (https://github.com/whynotw/rotational-data-augmentation-yolo/blob/master/after.png)
 
 ## Directory structure
 	.
