@@ -12,7 +12,7 @@ parser.add_argument("-i",dest="dataset_input",
                          required=True)
 parser.add_argument("-o",dest="dataset_output",
                          help="directory to store generated data. this directory will be made automatically.",
-                         default="rotational")
+                         default="data_rotational")
 parser.add_argument("-t",dest="time_interval",
                          help="time interval to control speed of displaying images.",
                          default=1,
@@ -37,7 +37,6 @@ ratio = args.ratio
 angle_interval = args.angle_interval
 save_image = args.save_image
 
-dataset_output = "rotational"
 dir_input_image = dataset_input+"/images/"
 dir_input_label = dataset_input+"/labels/"
 dir_output_image = dataset_output+"/images/"
