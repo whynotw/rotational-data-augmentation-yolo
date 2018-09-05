@@ -38,7 +38,7 @@ After: Image is rotated anticlockwise by 30 degree and the block is still bounde
 ## Generate augmented data
 	python rotation.py -i DATASET_INPUT
 
-`DATASET_INPUT` is `data_original` in this example.
+`DATASET_INPUT` is `data_original` in this example. The default output destination directory is `data_rotational`.
 
 ## Visualize generated images and labels
 	python check_label.py -i DATASET_INPUT
