@@ -36,14 +36,14 @@ After: Image is rotated anticlockwise by 30 degree and the block is still bounde
 `data_original` is directory with your images and labels. After running `rotation.py`, rotated images and labels will be stored in `data_rotational`.
 
 ## Generate augmented data
-	python rotation.py -i DATASET_INPUT
+	python rotation.py DATASET_INPUT
 
 `DATASET_INPUT` is `data_original` in this example. The default output destination directory is `data_rotational`.
 
 You can use `python rotation.py -h` to get more information.
 
 ## Visualize generated images and labels
-	python check_label.py -i DATASET_INPUT
+	python check_label.py DATASET_INPUT
 
 `DATASET_INPUT` is `data_rotational` in this example.
 
