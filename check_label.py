@@ -6,22 +6,23 @@ import argparse
 
 #parsing
 parser = argparse.ArgumentParser()
-parser.add_argument("-i",dest="dataset_input",
-                         help="directory containing data you want to visualize.",
-                         required=True)
-parser.add_argument("-t",dest="time_interval",
-                         help="time interval to control speed of displaying images.",
-                         default=1,
-                         type=int)
-parser.add_argument("-l",dest="labeled_only",
-                         help="only visualizing for data with label.",
-                         default=0,
-                         type=float)
-parser.add_argument("-s",dest="save_video",
-                         help="save video or not, filename is out.avi.",
-                         default=0,
-                         type=int)
-
+parser.add_argument("dataset_input",
+                    help="directory containing data you want to visualize.")
+parser.add_argument("-t",
+                    dest="time_interval",
+                    help="time interval to control speed of displaying images.",
+                    default=1,
+                    type=int)
+parser.add_argument("-l",
+                    dest="labeled_only",
+                    help="only visualizing for data with label.",
+                    default=0,
+                    type=float)
+parser.add_argument("-s",
+                    action="store_true",
+                    dest="save_video",
+                    help="save video or not, filename is out.avi.",
+                    default=False)
 args = parser.parse_args()
 dataset_input = args.dataset_input
 time_interval = args.time_interval

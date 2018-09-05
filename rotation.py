@@ -6,42 +6,46 @@ import argparse
 
 # parsing
 parser = argparse.ArgumentParser()
-parser.add_argument("-i",dest="dataset_input",
-                         help="directory containing data you want to rotate.",
-                         required=True)
-parser.add_argument("-o",dest="dataset_output",
-                         help="directory to store generated data. this directory will be made automatically.",
-                         default="data_rotational")
-parser.add_argument("-t",dest="time_interval",
-                         help="time interval to control speed of displaying images.",
-                         default=1,
-                         type=int)
-parser.add_argument("-r",dest="ratio",
-                         help="ratio for ignoring bounding box near the edges of image.",
-                         default=0.8,
-                         type=float)
-parser.add_argument("-a",dest="angle_interval",
-                         help="angle interval for rotating.",
-                         default=30,
-                         type=int)
-parser.add_argument("-s",dest="save_image",
-                         help="save data or not, set to 0 for purely visualizing rotated images.",
-                         default=1,
-                         type=int)
+parser.add_argument("dataset_input",
+                    help="directory containing data you want to rotate.")
+parser.add_argument("-o",
+                    dest="dataset_output",
+                    help="directory to store generated data. this directory will be made automatically.",
+                    default="data_rotational")
+parser.add_argument("-t",
+                    dest="time_interval",
+                    help="time interval to control speed of displaying images.",
+                    default=1,
+                    type=int)
+parser.add_argument("-r",
+                    dest="ratio",
+                    help="ratio for ignoring bounding box near the edges of image.",
+                    default=0.8,
+                    type=float)
+parser.add_argument("-a",
+                    dest="angle_interval",
+                    help="angle interval for rotating.",
+                    default=30,
+                    type=int)
+parser.add_argument("-s",
+                    dest="show_image",
+                    action="store_true",
+                    help="instead of saving data, showing images with bounding boxes without saving.",
+                    default=False)
 args = parser.parse_args()
 dataset_input = args.dataset_input
 dataset_output = args.dataset_output
 time_interval = args.time_interval
 ratio = args.ratio
 angle_interval = args.angle_interval
-save_image = args.save_image
+show_image = args.show_image
 
 dir_input_image = dataset_input+"/images/"
 dir_input_label = dataset_input+"/labels/"
 dir_output_image = dataset_output+"/images/"
 dir_output_label = dataset_output+"/labels/"
 
-if save_image:
+if not show_image:
   os.system("mkdir -p "+dataset_output)
   os.system("mkdir -p "+dataset_output+"/images")
   os.system("mkdir -p "+dataset_output+"/labels")
@@ -114,7 +118,7 @@ for image_name0 in image_names:
     image_annotated = np.array(image)
 
     # clean label file
-    if save_image:
+    if not show_image:
       with open(label_name,"w") as f1:
         pass
 
@@ -135,15 +139,15 @@ for image_name0 in image_names:
       area = (x_right-x_left)*(y_bottom-y_top)
       if area > area0*ratio:
         cv2.rectangle(image_annotated,(x_left,y_top),(x_right,y_bottom),(255,255,255),2) # white bbox
-        if save_image:
+        if not show_image:
           with open(label_name,"a") as f1:
             label = coord2label([category, x_left, y_top, x_right, y_bottom],height_image,width_image)
             f1.write(" ".join( map(str,label) )+"\n")
       else:
-        if not save_image:
+        if show_image:
           cv2.rectangle(image_annotated,(x_left,y_top),(x_right,y_bottom),(0,0,255),2) # red bbox
 
-    if save_image:
+    if not show_image:
       cv2.imwrite(image_name,image)
     else:
       cv2.imshow("test",image_annotated)
