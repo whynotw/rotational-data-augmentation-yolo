@@ -23,7 +23,7 @@
 	        ├── test00_030.txt
 	        └── ...
 
-Where `original` is directory with your images and labels. After running `rotation.py`, rotated images and labels will be stored in `rotational`.
+`original` is directory with your images and labels. After running `rotation.py`, rotated images and labels will be stored in `rotational`.
 
 ## Generate augmented data
 	python rotation.py -i DATASET_INPUT

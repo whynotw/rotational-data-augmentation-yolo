@@ -14,19 +14,19 @@ parser.add_argument("-o",dest="dataset_output",
                          help="directory to store generated data. this directory will be made automatically.",
                          default="rotational")
 parser.add_argument("-t",dest="time_interval",
-                         help="time interval to control speed of displaying images",
+                         help="time interval to control speed of displaying images.",
                          default=1,
                          type=int)
 parser.add_argument("-r",dest="ratio",
-                         help="ratio for ignoring bounding box near the edges of image",
+                         help="ratio for ignoring bounding box near the edges of image.",
                          default=0.8,
                          type=float)
 parser.add_argument("-a",dest="angle_interval",
-                         help="angle interval for rotating",
+                         help="angle interval for rotating.",
                          default=30,
                          type=int)
 parser.add_argument("-s",dest="save_image",
-                         help="save data or not, set to 0 for purely visualizing rotated images",
+                         help="save data or not, set to 0 for purely visualizing rotated images.",
                          default=1,
                          type=int)
 args = parser.parse_args()
@@ -126,13 +126,15 @@ for image_name0 in image_names:
       if angle != 0:
         points0 = np.array([[x_left,y_top,1.], [x_left,y_bottom,1.], [x_right,y_top,1.], [x_right,y_bottom,1.]])
         points = np.dot(matrix,points0.T).T
-        x_left   = constraint(int(min(map(lambda p: p[0], points))),0,width_image)
-        x_right  = constraint(int(max(map(lambda p: p[0], points))),0,width_image)
-        y_top    = constraint(int(min(map(lambda p: p[1], points))),0,height_image)
-        y_bottom = constraint(int(max(map(lambda p: p[1], points))),0,height_image)
-        area = (x_right-x_left)*(y_bottom-y_top)
-      else:
-        area = float(area0)
+        x_left   = int(min(map(lambda p: p[0], points)))
+        x_right  = int(max(map(lambda p: p[0], points)))
+        y_top    = int(min(map(lambda p: p[1], points)))
+        y_bottom = int(max(map(lambda p: p[1], points)))
+      x_left   = constraint(x_left  ,0,width_image)
+      x_right  = constraint(x_right ,0,width_image)
+      y_top    = constraint(y_top   ,0,height_image)
+      y_bottom = constraint(y_bottom,0,height_image)
+      area = (x_right-x_left)*(y_bottom-y_top)
       if area > area0*ratio:
         cv2.rectangle(image_annotated,(x_left,y_top),(x_right,y_bottom),(255,255,255),2) # white bbox
         if save_image:
