@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 from glob import glob
 import os
-from sys import argv
 import argparse
 
 # parsing

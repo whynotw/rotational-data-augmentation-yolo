@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 from glob import glob
 import os
-from sys import argv
 import argparse
 
 #parsing
@@ -38,7 +37,7 @@ print("# of images: %d"%len(image_names))
 if save_video:
   fourcc = cv2.VideoWriter_fourcc(*'XVID')
   height_image, width_image = cv2.imread(image_names[0]).shape[:2]
-  output = cv2.VideoWriter('output.avi',fourcc, 50.0, (width_image,height_image))
+  output = cv2.VideoWriter('output.avi',fourcc, 30., (width_image,height_image))
 
 def label2coord(label,height_image,width_image):
   category      =       label[0]
